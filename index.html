@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Work Day Scheduler</title>
+  </head>
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-3">Work Day Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your work day</p>
+      <p id="currentDay" class="lead"></p>
+    </header>
+    <div class="container">
+      <!-- Timeblocks go here -->
+      <div class="row">
+        <div class="col-md-1">
+          9AM
+        </div>
+        <div class="col-md-10">
+          <textarea id="9text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="9">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          10AM
+        </div>
+        <div class="col-md-10">
+          <textarea id="10text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="10">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          11AM
+        </div>
+        <div class="col-md-10">
+          <textarea id="11text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="11">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          12AM
+        </div>
+        <div class="col-md-10">
+          <textarea id="12text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="12">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          1pm
+        </div>
+        <div class="col-md-10">
+          <textarea id="13text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="13">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          2pm
+        </div>
+        <div class="col-md-10">
+          <textarea id="14text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="14">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          3pm
+        </div>
+        <div class="col-md-10">
+          <textarea id="15text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="15">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          4pm
+        </div>
+        <div class="col-md-10">
+          <textarea id="16text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="16">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          5pm
+        </div>
+        <div class="col-md-10">
+          <textarea id="17text"></textarea>
+        </div>
+        <div class="col-md-1">
+          <button class="btn saveBtn" data-time="17">Save</button>
+        </div>
+      </div>
+      <!-- TODO add the rest of the rows to represent all time blocks -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script>
+      $(document).ready(function() {
+         // check the current time
+        // update all time blocks to have the appropriate class (past, present, future)
+        // use moment to get current hour ... 
+        var current_hr = moment().hours();
+        // loop from 9 to 17. 
+        for (var i = 9; i<18; i++) {
+            // construct your id
+            // getting reference to appropriate textarea
+            // $("#9text"), $("#10text"), $("#11text")
+            var text_elm = $("#"+i+"text"); 
+            // if i<current hour, add past
+            // if i>current hour, add future
+            // else add present
+            if (i < current_hr) {
+                text_elm.addClass("past")
+            } else if ( i > current_hr ) {
+                text_elm.addClass("future")
+            } else {
+                text_elm.addClass("present")
+            }
+            // get the value from localstorage for the current time block
+            // set the text area for that timeblock accordingly.
+            text_elm.val(localStorage.getItem(i));
+        }
+        // on click of save, add the corresponding textarea content to local storage
+        $(".saveBtn").on("click", function(event){
+          // `this` represents the save button clicked
+          // get data-time from clicked button
+          var key = $(this).attr("data-time");
+          // get text from corresponding textarea
+          var value = $("#"+key+"text").val();
+          //update local storagee (time, text)
+          localStorage.setItem(key,value);
+        })
+        $("#currentDay").text(moment().format('MMMM Do YYYY'))
+      })
+    </script>
+  </body>
+</html>
