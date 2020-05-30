@@ -134,19 +134,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script>
       $(document).ready(function() {
-         // check the current time
-        // update all time blocks to have the appropriate class (past, present, future)
-        // use moment to get current hour ... 
+         // checks the current time
+        // updates class for all time blocks to (past, present, future)
+        // uses moment to obtain current hour
         var current_hr = moment().hours();
-        // loop from 9 to 17. 
+
+        // loops from 0900 to 1700. 
         for (var i = 9; i<18; i++) {
-            // construct your id
-            // getting reference to appropriate textarea
-            // $("#9text"), $("#10text"), $("#11text")
             var text_elm = $("#"+i+"text"); 
-            // if i<current hour, add past
-            // if i>current hour, add future
-            // else add present
             if (i < current_hr) {
                 text_elm.addClass("past")
             } else if ( i > current_hr ) {
@@ -154,18 +149,18 @@
             } else {
                 text_elm.addClass("present")
             }
-            // get the value from localstorage for the current time block
-            // set the text area for that timeblock accordingly.
+            // get the value from localstorage for the current time
+            // set the text area for that timeblock
             text_elm.val(localStorage.getItem(i));
         }
-        // on click of save, add the corresponding textarea content to local storage
+        // on click of save, store the entered text content in local storage
         $(".saveBtn").on("click", function(event){
-          // `this` represents the save button clicked
+          // "this" represents the save button clicked
           // get data-time from clicked button
           var key = $(this).attr("data-time");
-          // get text from corresponding textarea
+          // get text from text area
           var value = $("#"+key+"text").val();
-          //update local storagee (time, text)
+          //update local storage
           localStorage.setItem(key,value);
         })
         $("#currentDay").text(moment().format('MMMM Do YYYY'))
